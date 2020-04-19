@@ -1,14 +1,37 @@
-import React from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+import React, { useEffect, useState } from 'react';
+import { Map, TileLayer, GeoJSON, Tooltip } from 'react-leaflet';
+import { DriftMarker } from 'leaflet-drift-marker';
 
-import { AREA_OF_CONCERN } from '../geo_json/constants';
+import {
+	DOWNTOWN_DUBAI_LAT_LNG,
+	AREA_OF_CONCERN,
+	MOVING_USER
+} from '../geo_json/constants';
 
-const DOWNTOWN_DUBAI_LATLNG = [25.19138894280226, 55.28071403503418];
+const sleep = (ms) => {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
 const App = () => {
+	const [userLocation, setUserLocation] = useState(MOVING_USER[0]);
+
+	useEffect(() => {
+		simulateMovingUser();
+	}, []);
+
+	const simulateMovingUser = async () => {
+		for (let i = 0; i < MOVING_USER.length; i++) {
+			await sleep(750);
+			setUserLocation(MOVING_USER[i]);
+			if (i === MOVING_USER.length - 1) {
+				i = 0;
+			}
+		}
+	};
+
 	return (
 		<Map
-			center={DOWNTOWN_DUBAI_LATLNG}
+			center={DOWNTOWN_DUBAI_LAT_LNG}
 			zoom={17}
 			style={{ height: '100vh', width: '100%' }}
 		>
@@ -17,6 +40,9 @@ const App = () => {
 				attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
 			/>
 			<GeoJSON key="area-of-concern" data={AREA_OF_CONCERN} />
+			<DriftMarker position={userLocation} duration={600}>
+				<Tooltip>Moving User</Tooltip>
+			</DriftMarker>
 		</Map>
 	);
 };
