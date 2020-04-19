@@ -1,5 +1,7 @@
 import React from 'react';
-import { Map, TileLayer } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+
+import { AREA_OF_CONCERN } from '../geo_json/constants';
 
 const DOWNTOWN_DUBAI_LATLNG = [25.19138894280226, 55.28071403503418];
 
@@ -14,6 +16,7 @@ const App = () => {
 				url="https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}@2x.jpg90?access_token=pk.eyJ1IjoibWljaGFlbHphZHJhMSIsImEiOiJjazk3ZzByb3AwZXdrM2Z0YTd5Z3pyb3MxIn0.ZHFWNNq1INFozmIDmHlSbw"
 				attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
 			/>
+			<GeoJSON key="area-of-concern" data={AREA_OF_CONCERN} />
 		</Map>
 	);
 };
