@@ -33,7 +33,7 @@ const App = () => {
 	// Simulates tracking a moving user on the Mapbox imagery
 	const simulateMovingUser = async () => {
 		for (let i = 0; i < userCoords.length; i++) {
-			await sleep(500);
+			await sleep(350);
 			// GEOjson format is [long, lat] - Leaflet expects [lat, long] - must swap
 			setUserLocation([userCoords[i][1], userCoords[i][0]]);
 			if (i === userCoords.length - 1) {
@@ -70,7 +70,7 @@ const App = () => {
 	return (
 		<Map
 			center={DOWNTOWN_DUBAI_LAT_LNG}
-			zoom={19}
+			zoom={18}
 			style={{ height: '100vh', width: '100%' }}
 		>
 			<TileLayer
@@ -78,8 +78,8 @@ const App = () => {
 				attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
 			/>
 			{renderAreaOfConcern()}
-			<DriftMarker position={userLocation} duration={500}>
-				<Tooltip permanent>Moving User</Tooltip>
+			<DriftMarker position={userLocation} duration={350}>
+				<Tooltip>Moving User</Tooltip>
 			</DriftMarker>
 		</Map>
 	);
